@@ -27,7 +27,7 @@ func main() {
 	go func() {
 		api := httpapi.NewServer(st)
 
-		log.Printf("HTTP server (Gin) listening on %s", httpAddr)
+		log.Printf("HTTP server listening on %s", httpAddr)
 
 		if err := api.Start(httpAddr); err != nil {
 			log.Printf("HTTP server stopped: %v", err)
