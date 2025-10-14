@@ -1,0 +1,39 @@
+syntax = "proto3";
+package schedule;
+option go_package = "github.com/devhammed/grey-schedule/backend/proto;schedulepb";
+
+message Appointment {
+  string id = 1;
+  string title = 2;
+  string start = 3; // RFC3339
+  string end = 4;   // RFC3339
+  string createdAt = 5; // RFC3339
+}
+
+message CreateAppointmentRequest {
+  string title = 1;
+  string start = 2;
+  string end = 3;
+}
+
+message CreateAppointmentResponse {
+  Appointment appointment = 1;
+}
+
+message ListAppointmentsRequest {}
+
+message ListAppointmentsResponse {
+  repeated Appointment appointments = 1;
+}
+
+message DeleteAppointmentRequest {
+  string id = 1;
+}
+
+message DeleteAppointmentResponse {}
+
+service AppointmentService {
+  rpc CreateAppointment(CreateAppointmentRequest) returns (CreateAppointmentResponse);
+  rpc ListAppointments(ListAppointmentsRequest) returns (ListAppointmentsResponse);
+  rpc DeleteAppointment(DeleteAppointmentRequest) returns (DeleteAppointmentResponse);
+}
