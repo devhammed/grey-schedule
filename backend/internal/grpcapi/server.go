@@ -108,8 +108,6 @@ func (s *Server) Start(addr string) error {
 		return err
 	}
 
-	log.Printf("gRPC server listening on %s", addr)
-
 	return s.server.Serve(lis)
 }
 
