@@ -25,7 +25,7 @@ func main() {
 		if err != nil {
 			log.Fatalf("failed to init store: %v", err)
 		}
-	} else if storeType == "memory" {
+	} else if storeType == "in-memory" {
 		st = store.NewInMemoryStore()
 	} else {
 		log.Fatalf("unknown store type: %s", storeType)
