@@ -387,7 +387,7 @@ const file_proto_appointment_proto_rawDesc = "" +
 	"\x12AppointmentService\x12\\\n" +
 	"\x11CreateAppointment\x12\".schedule.CreateAppointmentRequest\x1a#.schedule.CreateAppointmentResponse\x12Y\n" +
 	"\x10ListAppointments\x12!.schedule.ListAppointmentsRequest\x1a\".schedule.ListAppointmentsResponse\x12\\\n" +
-	"\x11DeleteAppointment\x12\".schedule.DeleteAppointmentRequest\x1a#.schedule.DeleteAppointmentResponseB\x13Z\x11/proto;schedulepbb\x06proto3"
+	"\x11DeleteAppointment\x12\".schedule.DeleteAppointmentRequest\x1a#.schedule.DeleteAppointmentResponseB\x14Z\x12./proto;schedulepbb\x06proto3"
 
 var (
 	file_proto_appointment_proto_rawDescOnce sync.Once

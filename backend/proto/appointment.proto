@@ -1,6 +1,6 @@
 syntax = "proto3";
 package schedule;
-option go_package = "/proto;schedulepb";
+option go_package = "./proto;schedulepb";
 
 message Appointment {
   string id = 1;
