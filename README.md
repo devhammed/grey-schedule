@@ -39,6 +39,8 @@ This starts the gRPC server on port 8081 and the HTTP server on port 8080.
 
 **Go package:** `schedulepb`
 
+**Generator Command:** `protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative proto/appointment.proto`
+
 ---
 
 #### Messages
