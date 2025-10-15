@@ -11,7 +11,7 @@ func TestPostgresConcurrentCreateConflict(t *testing.T) {
 	dsn := os.Getenv("POSTGRES_URL")
 
 	if dsn == "" {
-		dsn = "postgres://root:@localhost:5432/grey_schedule?sslmode=disable"
+		dsn = "postgres://root:@localhost:5432/grey_schedule_test?sslmode=disable"
 	}
 
 	st, err := NewPostgresStore(dsn)
