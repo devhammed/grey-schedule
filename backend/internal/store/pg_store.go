@@ -47,6 +47,8 @@ func initSchema(db *sql.DB) error {
 			tstzrange(start_time, end_time) WITH &&
 		)
 	);
+
+	CREATE INDEX IF NOT EXISTS idx_appointments_start_time ON appointments(start_time);
 	`
 	_, err := db.Exec(schema)
 
