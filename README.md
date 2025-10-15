@@ -30,6 +30,9 @@ This starts the gRPC server on port 8081 and the HTTP server on port 8080.
 
 - `GRPC_ADDR`: gRPC address to bind (default `:8081`)
 - `HTTP_ADDR`: HTTP address to bind (default `:8080`)
+- `STORE_TYPE`: Storage type (default `postgres`)
+  - `memory`: In-memory storage
+  - `postgres`: PostgreSQL storage
 - `POSTGRES_URL`: PostgreSQL database URL (default `postgres://root:@localhost:5432/grey_schedule?sslmode=disable`)
 
 ### GRPC API
