@@ -62,7 +62,12 @@ func (s *Server) routes() {
 }
 
 func (s *Server) listAppointments(c *gin.Context) {
-	list := s.store.List()
+	list, err := s.store.List()
+
+	if err != nil {
+		writeError(c, http.StatusInternalServerError, "internal error")
+		return
+	}
 
 	c.JSON(http.StatusOK, list)
 }

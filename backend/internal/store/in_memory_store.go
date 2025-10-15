@@ -50,7 +50,7 @@ func (s *InMemoryStore) Create(title string, start, end time.Time) (models.Appoi
 	return a, nil
 }
 
-func (s *InMemoryStore) List() []models.Appointment {
+func (s *InMemoryStore) List() ([]models.Appointment, error) {
 	s.mu.RLock()
 	defer s.mu.RUnlock()
 
@@ -66,7 +66,7 @@ func (s *InMemoryStore) List() []models.Appointment {
 		return result[i].Start.Before(result[j].Start)
 	})
 
-	return result
+	return result, nil
 }
 
 func (s *InMemoryStore) Delete(id string) error {

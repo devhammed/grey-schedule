@@ -14,6 +14,6 @@ var (
 
 type Store interface {
 	Create(title string, start, end time.Time) (models.Appointment, error)
-	List() []models.Appointment
+	List() ([]models.Appointment, error)
 	Delete(id string) error
 }

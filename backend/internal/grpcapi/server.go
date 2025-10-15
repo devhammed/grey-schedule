@@ -75,7 +75,12 @@ func (s *Server) CreateAppointment(_ context.Context, req *schedulepb.CreateAppo
 }
 
 func (s *Server) ListAppointments(_ context.Context, _ *schedulepb.ListAppointmentsRequest) (*schedulepb.ListAppointmentsResponse, error) {
-	list := s.st.List()
+	list, err := s.st.List()
+
+	if err != nil {
+		return nil, status.Error(codes.Internal, "internal error")
+	}
+
 	out := make([]*schedulepb.Appointment, 0, len(list))
 
 	for _, a := range list {

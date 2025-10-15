@@ -88,11 +88,11 @@ func (p *PostgresStore) Create(title string, start, end time.Time) (models.Appoi
 	return a, nil
 }
 
-func (p *PostgresStore) List() []models.Appointment {
+func (p *PostgresStore) List() ([]models.Appointment, error) {
 	rows, err := p.db.Query(`SELECT id, title, start_time, end_time, created_at FROM appointments ORDER BY start_time, created_at`)
 
 	if err != nil {
-		return nil
+		return nil, err
 	}
 
 	defer rows.Close()
@@ -107,7 +107,7 @@ func (p *PostgresStore) List() []models.Appointment {
 		}
 	}
 
-	return result
+	return result, nil
 }
 
 func (p *PostgresStore) Delete(id string) error {
