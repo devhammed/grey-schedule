@@ -34,8 +34,10 @@ This starts the gRPC server on port 8081 and the HTTP server on port 8080.
 ### GRPC API
 
 **Proto syntax:** `proto3`
+
 **Package:** `schedule`
-**Go package:** `github.com/devhammed/grey-schedule/backend/proto;schedulepb`
+
+**Go package:** `schedulepb`
 
 ---
 
