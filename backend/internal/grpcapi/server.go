@@ -13,7 +13,7 @@ import (
 
 	"github.com/devhammed/grey-schedule/backend/internal/models"
 	"github.com/devhammed/grey-schedule/backend/internal/store"
-	schedulepb "github.com/devhammed/grey-schedule/backend/proto"
+	"github.com/devhammed/grey-schedule/backend/proto"
 )
 
 type Server struct {
