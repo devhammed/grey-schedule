@@ -3,7 +3,6 @@ package grpcapi
 import (
 	"context"
 	"errors"
-	"log"
 	"net"
 	"time"
 
