@@ -317,7 +317,9 @@ curl -X DELETE http://localhost:8080/api/appointments/550e8400-e29b-41d4-a716-44
 A Go unit test demonstrates safe concurrent booking:
 
 ```shell
-go test ./internal/store -run TestConcurrentCreateConflict -v
+go test ./internal/store -run TestInMemoryConcurrentCreateConflict -v # in-memory storage
+
+go test ./internal/store -run TestPostgresConcurrentCreateConflict -v # PostgreSQL storage
 ```
 
 ## Running the Frontend

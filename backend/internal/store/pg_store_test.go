@@ -1,13 +1,28 @@
 package store
 
 import (
+	"os"
 	"sync"
 	"testing"
 	"time"
 )
 
-func TestInMemoryConcurrentCreateConflict(t *testing.T) {
-	st := NewInMemoryStore()
+func TestPostgresConcurrentCreateConflict(t *testing.T) {
+	dsn := os.Getenv("POSTGRES_URL")
+
+	if dsn == "" {
+		dsn = "postgres://root:@localhost:5432/grey_schedule?sslmode=disable"
+	}
+
+	st, err := NewPostgresStore(dsn)
+	if err != nil {
+		t.Fatalf("failed to init store: %v", err)
+	}
+
+	if _, err := st.db.Exec(`DELETE FROM appointments`); err != nil {
+		t.Fatalf("failed to clear table: %v", err)
+	}
+
 	start := time.Now().Add(1 * time.Hour).Truncate(time.Minute)
 	end := start.Add(30 * time.Minute)
 
@@ -15,8 +30,8 @@ func TestInMemoryConcurrentCreateConflict(t *testing.T) {
 	var wg sync.WaitGroup
 	wg.Add(goroutines)
 
-	success := int32(0)
-	errs := int32(0)
+	var success int32
+	var errs int32
 
 	for i := 0; i < goroutines; i++ {
 		go func(i int) {
