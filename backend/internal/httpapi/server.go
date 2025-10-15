@@ -46,16 +46,19 @@ func (s *Server) cors() {
 }
 
 func (s *Server) routes() {
-	api := s.engine.Group("/api")
-	{
-		api.GET("/appointments", s.listAppointments)
-		api.POST("/appointments", s.createAppointment)
-		api.DELETE("/appointments/:id", s.deleteAppointment)
-	}
-
 	s.engine.GET("/health", func(c *gin.Context) {
 		c.String(http.StatusOK, "ok")
 	})
+
+	{
+		api := s.engine.Group("/api")
+
+		api.GET("/appointments", s.listAppointments)
+
+		api.POST("/appointments", s.createAppointment)
+
+		api.DELETE("/appointments/:id", s.deleteAppointment)
+	}
 }
 
 func (s *Server) listAppointments(c *gin.Context) {
