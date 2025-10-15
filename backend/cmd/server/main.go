@@ -12,7 +12,12 @@ import (
 func main() {
 	httpAddr := getEnv("HTTP_ADDR", ":8080")
 	grpcAddr := getEnv("GRPC_ADDR", ":8081")
-	st := store.NewInMemoryStore()
+	dsn := getEnv("POSTGRES_URL", "postgres://root:@localhost:5432/grey_schedule?sslmode=disable")
+	st, err := store.NewPostgresStore(dsn)
+
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	go func() {
 		api := grpcapi.NewServer(st)
