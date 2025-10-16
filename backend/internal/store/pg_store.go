@@ -38,7 +38,7 @@ func initSchema(db *sql.DB) error {
 	CREATE EXTENSION IF NOT EXISTS btree_gist;
 
 	CREATE TABLE IF NOT EXISTS appointments (
-		id TEXT PRIMARY KEY,
+		id UUID PRIMARY KEY,
 		title TEXT NOT NULL,
 		start_time TIMESTAMPTZ NOT NULL,
 		end_time   TIMESTAMPTZ NOT NULL,
