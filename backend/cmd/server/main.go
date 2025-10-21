@@ -58,9 +58,13 @@ func main() {
 		}
 	}()
 
+	processId := os.Getpid()
+
 	quit := make(chan os.Signal, 1)
 
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
+
+	log.Printf("Servers running on PID %d", processId)
 
 	<-quit
 
@@ -70,7 +74,7 @@ func main() {
 
 	wg.Go(func() {
 		if err := httpServer.Stop(); err != nil {
-			log.Fatal("HTTP Server forced to shutdown: ", err)
+			log.Fatalf("HTTP Server forced to shutdown: %s", err)
 		}
 
 		log.Println("HTTP Server stopped")
@@ -78,7 +82,7 @@ func main() {
 
 	wg.Go(func() {
 		if err := grpcServer.Stop(); err != nil {
-			log.Fatal("GRPC Server forced to shutdown: ", err)
+			log.Fatalf("GRPC Server forced to shutdown: %s", err)
 		}
 
 		log.Println("GRPC Server stopped")
