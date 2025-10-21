@@ -74,7 +74,7 @@ func main() {
 
 	wg.Go(func() {
 		if err := httpServer.Stop(); err != nil {
-			log.Fatalf("HTTP Server forced to shutdown: %s", err)
+			log.Fatalf("HTTP Server forced to shutdown: %v", err)
 		}
 
 		log.Println("HTTP Server stopped")
@@ -82,7 +82,7 @@ func main() {
 
 	wg.Go(func() {
 		if err := grpcServer.Stop(); err != nil {
-			log.Fatalf("GRPC Server forced to shutdown: %s", err)
+			log.Fatalf("GRPC Server forced to shutdown: %v", err)
 		}
 
 		log.Println("GRPC Server stopped")
