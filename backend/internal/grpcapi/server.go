@@ -20,14 +20,16 @@ type Server struct {
 	schedulepb.UnimplementedAppointmentServiceServer
 	st     store.Store
 	server *grpc.Server
+	addr   string
 }
 
-func NewServer(s store.Store) *Server {
+func NewServer(s store.Store, addr string) *Server {
 	gs := grpc.NewServer()
 
 	srv := &Server{
 		st:     s,
 		server: gs,
+		addr:   addr,
 	}
 
 	schedulepb.RegisterAppointmentServiceServer(gs, srv)
@@ -105,14 +107,20 @@ func (s *Server) DeleteAppointment(_ context.Context, req *schedulepb.DeleteAppo
 	return &schedulepb.DeleteAppointmentResponse{}, nil
 }
 
-func (s *Server) Start(addr string) error {
-	lis, err := net.Listen("tcp", addr)
+func (s *Server) Start() error {
+	lis, err := net.Listen("tcp", s.addr)
 
 	if err != nil {
 		return err
 	}
 
 	return s.server.Serve(lis)
+}
+
+func (s *Server) Stop() error {
+	s.server.GracefulStop()
+
+	return nil
 }
 
 func toPb(a models.Appointment) *schedulepb.Appointment {

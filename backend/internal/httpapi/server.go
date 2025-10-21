@@ -1,6 +1,7 @@
 package httpapi
 
 import (
+	"context"
 	"errors"
 	"net/http"
 	"time"
@@ -10,7 +11,8 @@ import (
 )
 
 type Server struct {
-	engine *gin.Engine
+	router *gin.Engine
+	http   *http.Server
 	store  store.Store
 }
 
@@ -20,8 +22,15 @@ type createReq struct {
 	End   string `json:"end"`
 }
 
-func NewServer(s store.Store) *Server {
-	srv := &Server{engine: gin.Default(), store: s}
+func NewServer(s store.Store, addr string) *Server {
+	router := gin.Default()
+
+	httpServer := &http.Server{
+		Addr:    addr,
+		Handler: router,
+	}
+
+	srv := &Server{router: router, http: httpServer, store: s}
 
 	srv.cors()
 
@@ -31,7 +40,7 @@ func NewServer(s store.Store) *Server {
 }
 
 func (s *Server) cors() {
-	s.engine.Use(func(c *gin.Context) {
+	s.router.Use(func(c *gin.Context) {
 		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
 		c.Writer.Header().Set("Access-Control-Allow-Methods", "GET,POST,DELETE,OPTIONS")
 		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type")
@@ -46,12 +55,12 @@ func (s *Server) cors() {
 }
 
 func (s *Server) routes() {
-	s.engine.GET("/health", func(c *gin.Context) {
+	s.router.GET("/health", func(c *gin.Context) {
 		c.String(http.StatusOK, "ok")
 	})
 
 	{
-		api := s.engine.Group("/api")
+		api := s.router.Group("/api")
 
 		api.GET("/appointments", s.listAppointments)
 
@@ -121,8 +130,20 @@ func (s *Server) deleteAppointment(c *gin.Context) {
 	c.Status(http.StatusNoContent)
 }
 
-func (s *Server) Start(addr string) error {
-	return s.engine.Run(addr)
+func (s *Server) Start() error {
+	if err := s.http.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
+		return err
+	}
+
+	return nil
+}
+
+func (s *Server) Stop() error {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+
+	defer cancel()
+
+	return s.http.Shutdown(ctx)
 }
 
 func writeError(c *gin.Context, status int, msg string) {
